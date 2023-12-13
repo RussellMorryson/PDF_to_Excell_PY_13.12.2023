@@ -8,16 +8,27 @@
 import tabula
 #import pandas
 
-pdf_in = "file1.pdf"
-PDF = tabula.read_pdf(pdf_in, pages='all', multiple_tables=True)
-with open('new_text_file.txt', 'a') as f:
-    for line in PDF:        
-        f.write(str(line))
-#PDF = pandas.DataFrame(PDF)
-#pdf_out_xlsx = "From_PDF.xlsx"
-#pdf_out_csv = "From_PDF.csv"
+def convert_pdf_to_excell():
+    pdf_in = "File.pdf"
+    
+    # Блок кода для линейной конвертации pdf в xlsx
+    #PDF = tabula.read_pdf_with_template(input_path = pdf_in)
+    #PDF = pandas.DataFrame(data = PDF)
+    #pdf_out_xlsx = "From_PDF.xlsx"
+    #PDF.to_excel(excel_writer = pdf_out_xlsx, index = False)
+    
+    # Блок кода для линейной конвертации pdf в csv
+    pdf_out_csv = "From_PDF.csv" 
+    tabula.convert_into(input_path = pdf_in, output_path = pdf_out_csv, pages = 'all')
 
-#PDF.to_excel(pdf_out_xlsx,index=False) 
+    with (open('From_PDF.csv', 'r') as csv_in,
+          open('Result_convertation.csv', 'a') as csv_out):
 
-#tabula.convert_into (input_PDF, pdf_out_csv, pages='all',multiple_tables=True)
-print("Done")
+    for line in csv_in:
+        word_line = line
+        word_line = word_line.replace('\"', ';') #Используется для разделения строки на столбцы
+        csv_out.write(word_line)    
+    print("Done")
+
+if __name__ == '__main__':
+    convert_pdf_to_excell()
